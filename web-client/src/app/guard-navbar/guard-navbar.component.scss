@@ -1,0 +1,46 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
+.guard-navbar {
+    border-bottom: 1px solid;
+    border-bottom-color: #535353;
+    background-color: #E8F1F2;
+    color: bisque;
+    font: normal small-caps 18px/20px serif;
+
+    a {
+        color: #13293D;
+    }
+
+    a:hover {
+        color: darkred;
+    }
+
+    a.active {
+        color: crimson;
+    }
+
+    a.active:hover {
+        color: darkred;
+    }
+
+    a.disabled {
+        color: darkslateblue;
+    }
+
+    a.disabled:hover {
+        color: rgb(51, 44, 97);
+    }
+
+    .nav {
+        .navbar-brand {
+            img {
+                background-size: cover;
+                height: 40px;
+            }
+        }
+    
+        .navs {
+            float: right;
+        }
+    }
+}
