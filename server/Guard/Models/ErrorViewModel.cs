@@ -1,5 +1,3 @@
-using System;
-
 namespace Guard.Models
 {
     public class ErrorViewModel

@@ -3,18 +3,20 @@ using MongoDB.Driver.GridFS;
 
 namespace Guard.Dal
 {
-    public class MongoDBContext
+    public class MongoDbContext
     {
-        IMongoDatabase database;
-        IGridFSBucket gridFS;
+        private const string ConnectionString = "mongodb://localhost:27017/Guard";
+        
+        public IMongoDatabase Database { get; }
+        public IGridFSBucket GridFs { get; }
 
-        public MongoDBContext(string tableName)
+        public MongoDbContext()
         {
-            string connectionString = "mongodb://localhost:27017";
-            MongoClient client = new MongoClient(connectionString);
-            Database = client.GetDatabase(tableName);
-        }
+            var connection = new MongoUrlBuilder(ConnectionString);
+            var client = new MongoClient(ConnectionString);
 
-        public IMongoDatabase Database { get => database; set => database = value; }
+            Database = client.GetDatabase(connection.DatabaseName);
+            GridFs = new GridFSBucket(Database);
+        }
     }
 }

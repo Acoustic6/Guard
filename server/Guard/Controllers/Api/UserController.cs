@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Guard.Dal;
+using Guard.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guard.Controllers.Api
@@ -7,11 +9,18 @@ namespace Guard.Controllers.Api
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        // GET: api/User
+        public static string DbCollectionName = "Users";
+        private readonly IMongoDbRepository<User> _userRepository;
+
+        public UserController(IMongoDbRepository<User> userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
         [HttpGet]
         public IEnumerable<string> GetAll()
         {
-            return new string[] { "UserController", "Controller" };
+            return new[] { "UserController", "Controller" };
         }
     }
 }

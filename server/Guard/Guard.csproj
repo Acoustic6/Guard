@@ -13,4 +13,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Guard.Dal\Guard.Dal.csproj" />
+    <ProjectReference Include="..\Guard.Domain\Guard.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

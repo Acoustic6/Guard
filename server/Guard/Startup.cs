@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Guard.Controllers.Api;
+using Guard.Dal;
+using Guard.Domain.Entities;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 
 namespace Guard
 {
@@ -17,6 +21,12 @@ namespace Guard
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddTransient(s => new MongoDbContext());
+            services.AddTransient<IMongoDbRepository<User>>(s =>
+                new MongoDbRepository<User>(UserController.DbCollectionName, s.GetService<MongoDbContext>()));
+            services.AddTransient<IMongoDbRepository<Account>>(s =>
+                new MongoDbRepository<Account>(AccountController.DbCollectionName, s.GetService<MongoDbContext>()));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
