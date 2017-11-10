@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Guard.Dal;
+﻿using Guard.Dal;
 using Guard.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +14,6 @@ namespace Guard.Controllers.Api
         public UserController(IMongoDbRepository<User> userRepository)
         {
             _userRepository = userRepository;
-        }
-
-        [HttpGet]
-        public IEnumerable<string> GetAll()
-        {
-            return new[] { "UserController", "Controller" };
         }
     }
 }

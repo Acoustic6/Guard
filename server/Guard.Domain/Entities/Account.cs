@@ -1,18 +1,26 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 
 namespace Guard.Domain.Entities
 {
     public class Account
     {
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public virtual ObjectId Id { get; set; }
 
-        public string Login { get; set; }
+        public virtual string Login { get; set; }
 
-        public string Password { get; set; }
+        public virtual string Password { get; set; }
 
-        public User User { get; set; }
+        [BsonIgnore]
+        public virtual string ConfirmationPassword { get; set; }
+
+        public virtual string Role { get; set; }
+
+        [BsonIgnoreIfDefault]
+        public virtual ObjectId UserId { get; set; }
+
+        [BsonIgnore]
+        public virtual User User { get; set; }
     }
 }

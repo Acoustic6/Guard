@@ -7,11 +7,11 @@
     color: bisque;
     font: normal small-caps 18px/20px serif;
 
-    a {
+    a, button, span {
         color: #13293D;
     }
 
-    a:hover {
+    a:hover, button:hover, span:hover {
         color: darkred;
     }
 

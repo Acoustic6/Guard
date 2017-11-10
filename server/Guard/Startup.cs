@@ -1,11 +1,12 @@
 ﻿using Guard.Controllers.Api;
 using Guard.Dal;
 using Guard.Domain.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Bson;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Guard
 {
@@ -20,6 +21,22 @@ namespace Guard
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(o =>
+                {
+                    o.RequireHttpsMetadata = false;
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthenticationOptions.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = AuthenticationOptions.Audience,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthenticationOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
+
             services.AddMvc();
 
             services.AddTransient(s => new MongoDbContext());
@@ -41,6 +58,7 @@ namespace Guard
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -48,7 +66,7 @@ namespace Guard
                 routes.MapRoute(
                     name: "angularapp",
                     template: "ng/{*.}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    defaults: new {controller = "Home", action = "Index"});
 
                 routes.MapRoute(
                     name: "default",
