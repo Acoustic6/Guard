@@ -1,0 +1,50 @@
+<form name="form" (ngSubmit)="f.form.valid && register(model, $event)" #f="ngForm" novalidate>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !login.valid }">
+        <label for="login">Login</label>
+        <input type="text" class="form-control" name="login" [(ngModel)]="model.Login" #login="ngModel" required />
+        <div *ngIf="f.submitted && !login.valid" class="help-block">Login is required</div>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" [(ngModel)]="model.Password" #password="ngModel" required />
+        <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !confirmationPassword.valid }">
+        <label for="confirmationPassword">Confirmation password</label>
+        <input type="password" class="form-control" name="confirmationPassword" [(ngModel)]="model.ConfirmationPassword" #confirmationPassword="ngModel"
+            required />
+        <div *ngIf="f.submitted && !confirmationPassword.valid" class="help-block">Confirmation password is required</div>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
+        <label for="firstName">FirstName</label>
+        <input type="text" class="form-control" name="firstName" [(ngModel)]="model.UserFirstName" #firstName="ngModel" required
+        />
+        <div *ngIf="f.submitted && !firstName.valid" class="help-block">FirstName is required</div>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
+        <label for="lastName">LastName</label>
+        <input type="text" class="form-control" name="lastName" [(ngModel)]="model.UserLastName" #lastName="ngModel" required />
+        <div *ngIf="f.submitted && !lastName.valid" class="help-block">LastName is required</div>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !givenName.valid }">
+        <label for="givenName">GivenName</label>
+        <input type="text" class="form-control" name="givenName" [(ngModel)]="model.UserGivenName" #givenName="ngModel" required
+        />
+        <div *ngIf="f.submitted && !givenName.valid" class="help-block">GivenName is required</div>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" [(ngModel)]="model.UserEmail" #email="ngModel" required />
+        <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !birthday.valid }">
+        <label for="birthday">Birthday</label>
+        <input type="date" class="form-control" name="birthday" [(ngModel)]="model.UserBirthday" #birthday="ngModel" required />
+        <div *ngIf="f.submitted && !birthday.valid" class="help-block">Birthday is required</div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">Register</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+    </div>
+</form>

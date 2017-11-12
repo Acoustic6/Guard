@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
+.header {
+    text-overflow: ellipsis;
+    margin-bottom: 55px;
+    background-color: #006494;
+    color: #E8F1F2;
+    border-bottom: 1px solid;
+    border-bottom-color: #535353;
+
+    .container {
+        padding-top: 4rem !important;
+        padding-bottom: 4rem !important;
+    }
+}
