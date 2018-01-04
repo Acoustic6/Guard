@@ -10,6 +10,8 @@ export class TokenService {
             let headers = new Headers({ 'Authorization': 'Bearer ' + currentToken });
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
             return new RequestOptions({ headers: headers });
+        } else {
+            return this.requestOptions();
         }
     }
 

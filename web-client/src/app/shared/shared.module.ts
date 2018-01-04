@@ -11,6 +11,7 @@ import { AuthenticationService, GuardLoginComponent, GuardRegisterComponent, Tok
 import { } from './directives/index';
 import { AuthGuard } from './guards/index';
 import { User, UserService } from './user/index';
+import { Post, PostsTableComponent, PostsService } from './posts/index';
 
 @NgModule({
     imports: [
@@ -22,13 +23,15 @@ import { User, UserService } from './user/index';
         TabComponent,
         TabsComponent,
         GuardLoginComponent,
-        GuardRegisterComponent
+        GuardRegisterComponent,
+        PostsTableComponent
     ],
     exports: [
         TabComponent,
         TabsComponent,
         GuardLoginComponent,
-        GuardRegisterComponent
+        GuardRegisterComponent,
+        PostsTableComponent
     ],
     providers: [
     ]
@@ -42,7 +45,8 @@ export class SharedModule {
                 UserService,
                 AuthGuard,
                 TokenService,
-                AccountService
+                AccountService,
+                PostsService
             ]
         };
     }

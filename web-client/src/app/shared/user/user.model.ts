@@ -12,12 +12,16 @@ export class User {
         }
     }
 
-    fromJSON(obj) {
+    public fromJSON(obj) {
         this.id = obj.Id;
         this.firstName = obj.FirstName;
         this.lastName = obj.LastName;
         this.givenName = obj.GivenName;
         this.email = obj.Email;
         this.birthday = obj.Birthday;
+    }
+
+    public fullName() {
+        return `${this.firstName} ${this.lastName} ${this.givenName}`;
     }
 }

@@ -1,0 +1,60 @@
+<div class="card-body">
+    <div class="row">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Введите запрос...">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">Найти</button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!postsPage?.posts || postsPage?.posts.length == 0" class="card text-center" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="card-body">
+        <h4 class="card-title">Записи не найдены...</h4>
+    </div>
+</div>
+
+<div *ngFor="let i of postsPage?.posts" class="card" style="margin-top: 20px; margin-bottom: 20px; margin-left: 0px impornant!; margin-right: 0px impornant!;">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                {{i.name}}
+            </div>
+            <div class="col-md-4" style="text-align: right">
+                {{i.user ? i.user.fullName() : ""}}
+            </div>
+            <div class="col-md-2" style="text-align: right">
+                {{dateToString(i.creationDate)}}
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        {{i.content}}
+    </div>
+</div>
+
+<nav *ngIf="postsPage?.posts && postsPage?.posts.length > 0" aria-label="Posts navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" [ngClass]="{'disabled':postsPage.curentPageNumber == postsPage.minPageNumber}">
+            <a class="page-link" (click)="navigateTo(postsPage.curentPageNumber-1)">Назад</a>
+        </li>
+
+        <li *ngFor="let item of postsNav.slice(postsPage.curentPageNumber-3 < 0 ? 0 : postsPage.curentPageNumber-3, postsPage.curentPageNumber); let i = index"
+            [attr.data-index]="i" class="page-item">
+            <a class="page-link" (click)="navigateTo(item)">{{item+1}}</a>
+        </li>
+        <li *ngFor="let item of postsNav.slice(postsPage.curentPageNumber, postsPage.curentPageNumber+1); let i = index" [attr.data-index]="i"
+            class="page-item" [ngClass]="{'active':item == postsPage.curentPageNumber}">
+            <a class="page-link" (click)="navigateTo(item)">{{item+1}}</a>
+        </li>
+        <li *ngFor="let item of postsNav.slice(postsPage.curentPageNumber+1, postsPage.curentPageNumber+3); let i = index" [attr.data-index]="i"
+            class="page-item">
+            <a class="page-link" (click)="navigateTo(item)">{{item+1}}</a>
+        </li>
+
+        <li class="page-item" [ngClass]="{'disabled':postsPage.curentPageNumber == postsPage.maxPageNumber}">
+            <a class="page-link" (click)="navigateTo(postsPage.curentPageNumber+1)">Вперед</a>
+        </li>
+    </ul>
+</nav>

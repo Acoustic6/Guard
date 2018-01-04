@@ -13,6 +13,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { GuardNavbarComponent } from './guard-navbar/guard-navbar.component';
+import { UserPersonalPageComponent } from './user-personal-page/user-personal-page.component';
 
 import { APP_CONFIG, CONFIG } from './app.config';
 import { ROUTING } from './app.routing';
@@ -35,7 +36,8 @@ import { SharedModule } from './shared/shared.module';
         GuardHeaderComponent,
         LoginComponent,
         RegisterComponent,
-        GuardNavbarComponent
+        GuardNavbarComponent,
+        UserPersonalPageComponent
     ],
     providers: [
         {

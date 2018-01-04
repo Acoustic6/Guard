@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Guard.Dal;
+using Guard.Dal.Services;
 using Guard.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
-using Newtonsoft.Json;
 
 namespace Guard.Controllers.Api
 {
@@ -21,6 +16,7 @@ namespace Guard.Controllers.Api
         public static string DbCollectionName = "Accounts";
         private readonly IMongoDbRepository<Account> _accountRepository;
         private readonly IMongoDbRepository<User> _userRepository;
+        private readonly AuthenticationService _authenticationService;
 
         public AccountController(
             IMongoDbRepository<Account> accountRepository,
@@ -28,6 +24,7 @@ namespace Guard.Controllers.Api
         {
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _authenticationService = new AuthenticationService(_accountRepository);
         }
 
         [Route("Token")]
@@ -36,33 +33,16 @@ namespace Guard.Controllers.Api
             var login = Request.Form["login"];
             var password = Request.Form["password"];
 
-            var identity = await GetIdentity(login, password);
-            if (identity == null)
+            var token = await _authenticationService.Token(login, password);
+            if (token == null)
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("Invalid username or password.");
                 return;
             }
-
-            var now = DateTime.UtcNow;
-            var jwt = new JwtSecurityToken(
-                AuthenticationOptions.Issuer,
-                AuthenticationOptions.Audience,
-                notBefore: now,
-                claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthenticationOptions.Lifetime)),
-                signingCredentials: new SigningCredentials(AuthenticationOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
-            );
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            var response = new
-            {
-                token = encodedJwt,
-                login = identity.Name
-            };
             
             Response.ContentType = "application/json";
-            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            await Response.WriteAsync(token);
         }
 
         [Route("Create")]
@@ -82,29 +62,6 @@ namespace Guard.Controllers.Api
             await _accountRepository.SaveAsync(account);
 
             return new JsonResult(new { success = true });
-        }
-
-        private async Task<ClaimsIdentity> GetIdentity(string login, string password)
-        {
-            var accounts = await _accountRepository.FilterAsync(x => x.Login == login && x.Password == password);
-            var account = accounts.FirstOrDefault();
-
-            if (account == null) return null;
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, account.Login),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, account.Role)
-            };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims,
-                "Token",
-                ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType
-            );
-
-            return claimsIdentity;
         }
     }
 }
