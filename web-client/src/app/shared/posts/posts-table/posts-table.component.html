@@ -18,14 +18,11 @@
 <div *ngFor="let i of postsPage?.posts" class="card" style="margin-top: 20px; margin-bottom: 20px; margin-left: 0px impornant!; margin-right: 0px impornant!;">
     <div class="card-header">
         <div class="row">
-            <div class="col-md-6">
-                {{i.name}}
+            <div class="col-md-6" style="text-align: left;">
+                {{i.account && i.account.user ? i.account.user.fullName() : ""}}
             </div>
-            <div class="col-md-4" style="text-align: right">
-                {{i.user ? i.user.fullName() : ""}}
-            </div>
-            <div class="col-md-2" style="text-align: right">
-                {{dateToString(i.creationDate)}}
+            <div class="col-md-2" style="text-align: right;">
+                {{ i.creationDate.toString() }}
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ export class PostsService {
         private tokenService: TokenService) { }
 
     public getUserPostsByLoginWithPagination(login: string, pageNumber: number) {
-        return this.http.get(this.userUrl() + 'PostsBy/login/' + login + '/page/' + pageNumber, this.tokenService.requestOptionsWithToken()).map((response: Response) => {
+        return this.http.get(this.userUrl() + 'PostsBy/' + login + '/page/' + pageNumber, this.tokenService.requestOptionsWithToken()).map((response: Response) => {
             let postsPage = new PostsPage();
             postsPage.fromJSON(response.json());
             return postsPage;

@@ -1,15 +1,15 @@
-import { User } from '../user/user.model';
+import { Account } from '../account/account.model';
 
 export class Post {
-    private name: string;
+    private id: string;
     private creationDate: Date;
     private content: string;
-    private user: User;
+    private account: Account;
 
     public fromJSON(obj) {
-        this.name = obj.name;
-        this.creationDate = obj.creationDate;
-        this.content = obj.content;
-        this.user = obj.user;
+        this.id = obj.Id;
+        this.creationDate = obj.CreationDate;
+        this.content = obj.Content;
+        this.account = obj.Account;
     }
 }

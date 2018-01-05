@@ -44,6 +44,8 @@ namespace Guard
                 new MongoDbRepository<User>(UserController.DbCollectionName, s.GetService<MongoDbContext>()));
             services.AddTransient<IMongoDbRepository<Account>>(s =>
                 new MongoDbRepository<Account>(AccountController.DbCollectionName, s.GetService<MongoDbContext>()));
+            services.AddTransient<IMongoDbRepository<Post>>(s =>
+                new MongoDbRepository<Post>(PostsController.DbCollectionName, s.GetService<MongoDbContext>()));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
