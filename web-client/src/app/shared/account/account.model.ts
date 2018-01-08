@@ -5,7 +5,7 @@ export class Account {
     login: string;
     password: string;
     confirmationPassword: string;
-    user: User;
+    user: User = new User();
 
     constructor(fields?: Partial<Account>) {
         this.user = new User();
@@ -20,7 +20,7 @@ export class Account {
         this.login = obj.Login;
 
         let user = new User();
-        user.fromJSON(obj.User);
+        obj.User && user.fromJSON(obj.User);
 
         this.user = user;
     }

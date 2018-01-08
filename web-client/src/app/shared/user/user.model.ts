@@ -18,7 +18,7 @@ export class User {
         this.lastName = obj.LastName;
         this.givenName = obj.GivenName;
         this.email = obj.Email;
-        this.birthday = obj.Birthday;
+        this.birthday = obj.Birthday && new Date(obj.Birthday);
     }
 
     public fullName() {

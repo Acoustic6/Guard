@@ -12,8 +12,8 @@ export class UserService {
         private http: Http,
         private tokenService: TokenService) { }
 
-    public getUserByLogin() {
-        return this.http.get(this.userUrl() + 'UserByLogin/' + this.tokenService.userLogin(), this.tokenService.requestOptionsWithToken()).map((response: Response) => {
+    public getUserByLogin(login: string) {
+        return this.http.get(this.userUrl() + 'by/' + login, this.tokenService.requestOptionsWithToken()).map((response: Response) => {
             let user = new User();
             user.fromJSON(response.json());
             return user;

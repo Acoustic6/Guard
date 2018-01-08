@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
 import { PostsPage } from '../index';
+import { Account } from '../../account/index';
 
 @Component({
     selector: 'posts-table',
@@ -11,28 +11,47 @@ import { PostsPage } from '../index';
     templateUrl: './posts-table.component.html'
 })
 export class PostsTableComponent implements OnInit {
-    private postsPage: PostsPage = new PostsPage();
-    private postsNav: number[];
-    private paramsLogin: string;
+    @Input() monitoredUserLogin: string;
 
-    constructor(
-        private postsService: PostsService,
-        private route: ActivatedRoute) {
+    private postsNav: number[];
+    private newPost: Post = new Post();
+    private postsPage: PostsPage = new PostsPage();
+
+    constructor(private postsService: PostsService) {
         this.postsNav = this.range(this.postsPage.minPageNumber, this.postsPage.maxPageNumber);
-        this.paramsLogin = this.route.snapshot.params['login'];
     }
 
     ngOnInit() {
+        this.newPost.ownerLogin = this.monitoredUserLogin;
         this.updatePostsPage();
     }
 
     private updatePostsPage() {
-        this.postsService.getUserPostsByLoginWithPagination(this.paramsLogin, this.postsPage.curentPageNumber).subscribe(data => {
-            this.postsPage = data;
-            this.postsNav = this.range(this.postsPage.minPageNumber, this.postsPage.maxPageNumber);
-        }, error => {
-            console.log(error);
-        });
+        this.postsService.getUserPostsByLoginWithPagination(this.monitoredUserLogin, this.postsPage.curentPageNumber)
+            .subscribe(
+            data => {
+                this.postsPage = data;
+                this.postsNav = this.range(this.postsPage.minPageNumber, this.postsPage.maxPageNumber);
+            },
+            error => {
+                console.log(error);
+            });
+    }
+
+    private createPost() {
+        if (this.newPost.content) {
+            this.postsService.createPost(this.newPost, this.postsPage.curentPageNumber)
+                .subscribe(
+                data => {
+                    this.postsPage = data;
+                    this.postsNav = this.range(this.postsPage.minPageNumber, this.postsPage.maxPageNumber);
+                    this.newPost.content = '';
+                },
+                error => {
+                    console.log(error);
+                    this.newPost.content = '';
+                });
+        }
     }
 
     private navigateTo(pageNumber: number) {
@@ -49,12 +68,5 @@ export class PostsTableComponent implements OnInit {
         }
 
         return list;
-    }
-
-    private dateToString(date: Date) {
-        if (!date) {
-            return '';
-        }
-        return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
     }
 }

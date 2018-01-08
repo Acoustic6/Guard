@@ -17,7 +17,7 @@ export class AccountService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.userUrl() + 'Create', body, options).map((response: Response) => response.json());
+        return this.http.post(this.userUrl() + 'create', body, options).map((response: Response) => response.json());
     }
 
     private userUrl() {

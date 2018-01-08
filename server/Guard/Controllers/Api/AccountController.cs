@@ -27,7 +27,7 @@ namespace Guard.Controllers.Api
             _authenticationService = new AuthenticationService(_accountRepository);
         }
 
-        [Route("Token")]
+        [Route("token")]
         public async Task Token()
         {
             var login = Request.Form["login"];
@@ -45,7 +45,7 @@ namespace Guard.Controllers.Api
             await Response.WriteAsync(token);
         }
 
-        [Route("Create")]
+        [Route("create")]
         public async Task<IActionResult> Create([FromBody] Account account)
         {
             if (account.Password != account.ConfirmationPassword || account.User == null)
@@ -56,7 +56,6 @@ namespace Guard.Controllers.Api
             account.Role = Role.Default;
             account.Id = ObjectId.GenerateNewId();
             account.User.Id = account.UserId = ObjectId.GenerateNewId();
-
 
             await _userRepository.SaveAsync(account.User);
             await _accountRepository.SaveAsync(account);

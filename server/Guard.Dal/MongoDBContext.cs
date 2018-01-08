@@ -6,7 +6,7 @@ namespace Guard.Dal
     public class MongoDbContext
     {
         private const string ConnectionString = "mongodb://localhost:27017/Guard";
-        
+
         public IMongoDatabase Database { get; }
         public IGridFSBucket GridFs { get; }
 

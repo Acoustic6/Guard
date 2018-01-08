@@ -9,7 +9,17 @@
     </div>
 </div>
 
-<div *ngIf="!postsPage?.posts || postsPage?.posts.length == 0" class="card text-center" style="margin-top: 20px; margin-bottom: 20px;">
+<div class="card text-center">
+    <div class="card-block">
+        <textarea class="form-control" rows="3" style="resize: none" placeholder="Введите текст..." [(ngModel)]="newPost && newPost.content">
+        </textarea>
+    </div>
+    <div class="card-footer text-muted">
+        <button class="btn btn-primary btn-sm" type="button" [disabled]="!newPost?.content" (click)="createPost()">Добавить запись</button>
+    </div>
+</div>
+
+<div *ngIf="!postsPage?.posts || postsPage.posts.length == 0" class="card text-center" style="margin-top: 20px; margin-bottom: 20px;">
     <div class="card-body">
         <h4 class="card-title">Записи не найдены...</h4>
     </div>
@@ -17,13 +27,11 @@
 
 <div *ngFor="let i of postsPage?.posts" class="card" style="margin-top: 20px; margin-bottom: 20px; margin-left: 0px impornant!; margin-right: 0px impornant!;">
     <div class="card-header">
-        <div class="row">
-            <div class="col-md-6" style="text-align: left;">
-                {{i.account && i.account.user ? i.account.user.fullName() : ""}}
-            </div>
-            <div class="col-md-2" style="text-align: right;">
-                {{ i.creationDate.toString() }}
-            </div>
+        <div style="text-align: left;">
+            {{i.creatorUser ? i.creatorUser.fullName() : "" }}
+        </div>
+        <div style="text-align: left;">
+            {{ i.creationDate ? i.creationDate.toLocaleString() : "" }}
         </div>
     </div>
     <div class="card-body">
@@ -31,7 +39,7 @@
     </div>
 </div>
 
-<nav *ngIf="postsPage?.posts && postsPage?.posts.length > 0" aria-label="Posts navigation">
+<nav *ngIf="postsPage?.posts && postsPage.posts.length > 0" aria-label="Posts navigation">
     <ul class="pagination justify-content-center">
         <li class="page-item" [ngClass]="{'disabled':postsPage.curentPageNumber == postsPage.minPageNumber}">
             <a class="page-link" (click)="navigateTo(postsPage.curentPageNumber-1)">Назад</a>

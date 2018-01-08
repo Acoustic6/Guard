@@ -27,13 +27,12 @@ namespace Guard.Controllers.Api
         }
 
         [HttpGet]
-        [Route("UserByLogin/{login}")]
+        [Route("by/{login}")]
         public async Task GetUserByLogin(string login)
         {
             if (login == null) throw new ArgumentNullException(nameof(login));
 
             var account = (await _accountRepository.FilterAsync(e => e.Login == login)).FirstOrDefault();
-            var claim = HttpContext;
             if (account == null)
             {
                 Response.StatusCode = 400;

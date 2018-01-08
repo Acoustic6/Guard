@@ -9,7 +9,7 @@
             <a class="nav-link" routerLink='/register'>Зарегистрироваться</a>
         </div>
         <div *ngIf="authenticationEnabled && isLogged" class="row col-md-6 d-flex justify-content-end justify-content-start">
-            <a class="nav-link" routerLink='/user/{{login}}'>Добро пожаловать, {{login}}</a>
+            <a class="nav-link" [routerLink]="['/user', login]">Добро пожаловать, {{login}}</a>
             <button type="button" class="btn btn-link" (click)='logout()'>Выйти</button>
         </div>
     </nav>

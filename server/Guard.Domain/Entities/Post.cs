@@ -9,14 +9,20 @@ namespace Guard.Domain.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
         public string Content { get; set; }
 
         [BsonIgnoreIfDefault]
-        public ObjectId AccountId { get; set; }
+        public string OwnerLogin { get; set; }
+
+        [BsonIgnoreIfDefault]
+        public string CreatorLogin { get; set; }
 
         [BsonIgnore]
-        public Account Account { get; set; }
+        public User OwnerUser { get; set; }
+
+        [BsonIgnore]
+        public User CreatorUser { get; set; }
     }
 }

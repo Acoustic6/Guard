@@ -18,7 +18,7 @@ export class AuthenticationService {
         body.set('login', login);
         body.set('password', password);
 
-        return this.http.post(this.authenticationUrl(), body.toString(), this.tokenService.requestOptions())
+        return this.http.post(this.authenticationUrl() + 'token', body.toString(), this.tokenService.requestOptions())
             .map((response: Response) => this.tokenService.updateToken(response.json()));
     }
 
@@ -27,6 +27,6 @@ export class AuthenticationService {
     }
 
     private authenticationUrl() {
-        return this.config.apiEndpoint + 'Account/Token';
+        return this.config.apiEndpoint + 'Account/';
     }
 }
