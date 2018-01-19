@@ -6,9 +6,9 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
-namespace Guard.Dal
+namespace Guard.Domain.Repositories
 {
-    public interface IMongoDbRepository<T>
+    public interface IMongoDBRepository<T>
     {
         Task DeleteFileAsync(FilterDefinition<GridFSFileInfo> filter);
         Task DeleteFileByIdAsync(ObjectId id);

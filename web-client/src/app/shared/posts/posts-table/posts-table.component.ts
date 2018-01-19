@@ -13,6 +13,8 @@ import { Account } from '../../account/index';
 export class PostsTableComponent implements OnInit {
     @Input() monitoredUserLogin: string;
 
+    private filter: string = '';
+    private isSearchEnabled: boolean = false;
     private postsNav: number[];
     private newPost: Post = new Post();
     private postsPage: PostsPage = new PostsPage();
@@ -27,7 +29,7 @@ export class PostsTableComponent implements OnInit {
     }
 
     private updatePostsPage() {
-        this.postsService.getUserPostsByLoginWithPagination(this.monitoredUserLogin, this.postsPage.curentPageNumber)
+        this.postsService.getPosts(this.monitoredUserLogin, this.postsPage.curentPageNumber, this.filter)
             .subscribe(
             data => {
                 this.postsPage = data;
@@ -40,7 +42,7 @@ export class PostsTableComponent implements OnInit {
 
     private createPost() {
         if (this.newPost.content) {
-            this.postsService.createPost(this.newPost, this.postsPage.curentPageNumber)
+            this.postsService.createPost(this.newPost, this.postsPage.curentPageNumber, this.filter)
                 .subscribe(
                 data => {
                     this.postsPage = data;
@@ -52,6 +54,17 @@ export class PostsTableComponent implements OnInit {
                     this.newPost.content = '';
                 });
         }
+    }
+
+    private search() {
+        this.isSearchEnabled = true;
+        this.updatePostsPage();
+    }
+
+    private clearSearch() {
+        this.filter = '';
+        this.updatePostsPage();
+        this.isSearchEnabled = false;
     }
 
     private navigateTo(pageNumber: number) {

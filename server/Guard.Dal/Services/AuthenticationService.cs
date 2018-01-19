@@ -8,14 +8,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Newtonsoft.Json;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
+using Guard.Domain.Entities.MongoDB;
+using Guard.Domain.Repositories;
 
 namespace Guard.Dal.Services
 {
     public class AuthenticationService
     {
-        private readonly IMongoDbRepository<Account> _accountRepository;
+        private readonly IMongoDBRepository<MongoDBAccount> _accountRepository;
 
-        public AuthenticationService(IMongoDbRepository<Account> accountRepository)
+        public AuthenticationService(IMongoDBRepository<MongoDBAccount> accountRepository)
         {
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }

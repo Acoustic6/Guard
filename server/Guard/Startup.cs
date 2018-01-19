@@ -1,6 +1,8 @@
 ﻿using Guard.Controllers.Api;
 using Guard.Dal;
 using Guard.Domain.Entities;
+using Guard.Domain.Entities.MongoDB;
+using Guard.Domain.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,13 +41,14 @@ namespace Guard
 
             services.AddMvc();
 
-            services.AddTransient(s => new MongoDbContext());
-            services.AddTransient<IMongoDbRepository<User>>(s =>
-                new MongoDbRepository<User>(UserController.DbCollectionName, s.GetService<MongoDbContext>()));
-            services.AddTransient<IMongoDbRepository<Account>>(s =>
-                new MongoDbRepository<Account>(AccountController.DbCollectionName, s.GetService<MongoDbContext>()));
-            services.AddTransient<IMongoDbRepository<Post>>(s =>
-                new MongoDbRepository<Post>(PostsController.DbCollectionName, s.GetService<MongoDbContext>()));
+            services.AddTransient(s => new MongoDBContext());
+            services.AddTransient<IMongoDBRepository<MongoDBUser>>(s => new MongoDBRepository<MongoDBUser>(UserController.DbCollectionName, s.GetService<MongoDBContext>()));
+            services.AddTransient<IMongoDBRepository<MongoDBAccount>>(s => new MongoDBRepository<MongoDBAccount>(AccountController.DbCollectionName, s.GetService<MongoDBContext>()));
+            services.AddTransient<IMongoDBRepository<MongoDBPost>>(s => new MongoDBRepository<MongoDBPost>(PostsController.DbCollectionName, s.GetService<MongoDBContext>()));
+
+            var elasticSearchGuardIndex = "guard";
+            services.AddTransient(s => new ElasticSearchContext(elasticSearchGuardIndex));
+            services.AddTransient<PostsElasticSearchRepository>(s => new PostsElasticSearchRepository(s.GetService<ElasticSearchContext>()));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

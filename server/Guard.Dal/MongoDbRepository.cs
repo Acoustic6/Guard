@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
+using Guard.Domain.Repositories;
 
 namespace Guard.Dal
 {
-    public class MongoDbRepository<T> : IMongoDbRepository<T>
+    public class MongoDBRepository<T> : IMongoDBRepository<T>
     {
         private readonly string _dbName;
-        private readonly MongoDbContext _dBContext;
+        private readonly MongoDBContext _dBContext;
 
-        public MongoDbRepository(string dbName, MongoDbContext dBContext)
+        public MongoDBRepository(string dbName, MongoDBContext dBContext)
         {
             _dbName = dbName;
             _dBContext = dBContext;

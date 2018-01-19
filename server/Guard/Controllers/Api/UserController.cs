@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Guard.Domain.Entities.MongoDB;
+using Guard.Domain.Repositories;
+using Guard.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Guard.Dal;
-using Guard.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Guard.Controllers.Api
 {
@@ -15,12 +15,12 @@ namespace Guard.Controllers.Api
     public class UserController : Controller
     {
         public static string DbCollectionName = "Users";
-        private readonly IMongoDbRepository<User> _userRepository;
-        private readonly IMongoDbRepository<Account> _accountRepository;
+        private readonly IMongoDBRepository<MongoDBUser> _userRepository;
+        private readonly IMongoDBRepository<MongoDBAccount> _accountRepository;
 
         public UserController(
-            IMongoDbRepository<User> userRepository,
-            IMongoDbRepository<Account> accountRepository)
+            IMongoDBRepository<MongoDBUser> userRepository,
+            IMongoDBRepository<MongoDBAccount> accountRepository)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
@@ -51,17 +51,13 @@ namespace Guard.Controllers.Api
 
             Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(
-                new
+                new UserModel
                 {
-                    user.Birthday,
-                    user.Email,
-                    user.FirstName,
-                    user.GivenName,
-                    user.LastName
-                },
-                new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented
+                    Birthday = user.Birthday,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    GivenName = user.GivenName,
+                    LastName = user.LastName
                 })
             );
         }

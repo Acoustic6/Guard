@@ -1,14 +1,19 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 
-namespace Guard.Domain.Entities
+namespace Guard.Domain.Entities.MongoDB
 {
-    public class User
+    public class MongoDBUser
     {
+        [BsonRepresentation(BsonType.ObjectId)]
         public virtual string Id { get; set; }
         public virtual string FirstName { get; set; }
         public virtual string LastName { get; set; }
+        [BsonIgnoreIfNull]
         public virtual string GivenName { get; set; }
         public virtual string Email { get; set; }
+        [BsonIgnoreIfNull]
         public virtual DateTime? Birthday { get; set; }
     }
 }

@@ -1,9 +1,9 @@
 <div class="card-body">
     <div class="row">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Введите запрос...">
+            <input type="text" class="form-control" placeholder="Введите запрос..." [disabled]="isSearchEnabled" [(ngModel)]="filter">
             <span class="input-group-btn">
-                <button class="btn btn-primary" type="button">Найти</button>
+                <button class="btn btn-primary" type="button" (click)="isSearchEnabled ? clearSearch() : search()">{{ isSearchEnabled ? 'Сбросить' : 'Найти' }}</button>
             </span>
         </div>
     </div>
